@@ -129,12 +129,12 @@ class DecryptAll extends Command {
 			}
 
 			$uid = $input->getArgument('user');
-			//FIXME WHEN https://github.com/owncloud/core/issues/24994 is fixed
-			if ($uid === null) {
+			if ($uid === '') {
 				$message = 'your ownCloud';
 			} else {
 				$message = "$uid's account";
 			}
+
 
 			$output->writeln("\n");
 			$output->writeln("You are about to start to decrypt all files stored in $message.");
