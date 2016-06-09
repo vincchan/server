@@ -347,6 +347,10 @@ OCA.Sharing.PublicApp = {
 };
 
 $(document).ready(function () {
+	var $uploadValue = $('#uploadOnlyInterface').val();
+	if($uploadValue === "1") {
+		$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
+	}
 	// FIXME: replace with OC.Plugins.register()
 	if (window.TESTING) {
 		return;

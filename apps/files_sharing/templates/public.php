@@ -30,6 +30,7 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 	<div id="notification" style="display: none;"></div>
 </div>
 
+<input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -115,10 +116,30 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 			<?php endif; ?>
 		</div>
 		<?php } else { ?>
+			<input type="hidden" id="uploadOnlyInterface" value="1"/>
 			<div id="emptycontent" class="">
-			<div class="icon-upload"></div>
-			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
-			<a href="#" class="inlineblock button">Select</a>
+				<?php
+				$avatar = \OC::$server->getAvatarManager();
+				$hasAvatar = false;
+				try {
+					$avatar = $avatar->getAvatar($_['owner']);
+					if($avatar->get(128) !== false) {
+						$hasAvatar = true;
+					}
+				} catch (\Exception $e) {
+					$hasAvatar = false;
+				}
+				?>
+				<?php if($hasAvatar === true): ?>
+					<img class="avatar" style="height: 128px;" src="<?php p(\OC::$server->getURLGenerator()->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $_['owner'], 'size' => 256])) ?>">
+				<?php else: ?>
+					<div id="displayavatar">
+					<div class="avatardiv"></div>
+					</div>
+				<?php endif; ?>
+				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
+				<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+				<a href="#" class="button icon-upload"><?php p($l->t('Select')) ?></a>
 			</div>
 		<?php } ?>
 </div>
